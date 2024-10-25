@@ -1,0 +1,71 @@
+﻿@model SachOnline.Models.SACH
+@{
+    ViewBag.Title = "Chi Tiết Sách";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/Images/@Model.AnhBia" alt="@Model.TenSach" class="img-responsive" style="width: 100%; height: auto;" />
+        </div>
+        <div class="col-md-8">
+            <h2>@Model.TenSach</h2>
+            <p><strong>Tác giả:</strong></p>
+            <p><strong>Nhà xuất bản:</strong> @Model.NHAXUATBAN.TenNXB</p>
+            <p><strong>Chủ đề:</strong> @Model.CHUDE.TenChuDe</p>
+            <p><strong>Mô tả:</strong></p>
+            <p>@Model.MoTa</p>
+            <p><strong>Giá bán:</strong> @String.Format("{0:0,0 VNĐ}", Model.GiaBan)</p>
+            <p><strong>Số lượng còn lại:</strong> @Model.SoLuongTon</p>
+
+            <form action="/GioHang/AddToCart" method="post">
+                <input type="hidden" name="MaSach" value="@Model.MaSach" />
+                <button type="submit" class="btn btn-primary">
+
+                    <a href="@Url.Action("ThemGioHang","GioHang", new { ms = Model.MaSach, url = Request.Url.ToString() })"></a>
+
+                    <span class="glyphicon glyphicon-shopping-cart"></span> Thêm vào giỏ hàng
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <hr />
+
+    <h3>Các sách liên quan</h3>
+    <div class="row">
+        @foreach (var item in Model.CHUDE.SACHes.Take(3)) // Hiển thị 4 sách liên quan cùng chủ đề
+        {
+            <div class="col-md-3">
+                <div class="thumbnail">
+                    <img src="~/Images/@item.AnhBia" alt="@item.TenSach" class="img-responsive" style="height: 200px; width: auto;" />
+                    <div class="caption">
+                        <h4><a href="@Url.Action("ChitietSach", "SachOnline", new { id = item.MaSach })">@item.TenSach</a></h4>
+                        <p>@String.Format("{0:0,0 VNĐ}", item.GiaBan)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="thumbnail">
+                    <img src="~/Images/@item.AnhBia" alt="@item.TenSach" class="img-responsive" style="height: 200px; width: auto;" />
+                    <div class="caption">
+                        <h4><a href="@Url.Action("ChitietSach", "SachOnline", new { id = item.MaSach })">@item.TenSach</a></h4>
+                        <p>@String.Format("{0:0,0 VNĐ}", item.GiaBan)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="thumbnail">
+                    <img src="~/Images/@item.AnhBia" alt="@item.TenSach" class="img-responsive" style="height: 200px; width: auto;" />
+                    <div class="caption">
+                        <h4><a href="@Url.Action("ChitietSach", "SachOnline", new { id = item.MaSach })">@item.TenSach</a></h4>
+                        <p>@String.Format("{0:0,0 VNĐ}", item.GiaBan)</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
